@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!--<context:property-placeholder location="classpath:/properties/hibernate.properties"/>-->
+
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:/properties/hibernate.properties-->
+                <!--</value>-->
+                <!--<value>classpath:/properties/app-default.properties</value>-->
+                <!--<value>classpath:/properties/application.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!-- 使用C3P0数据源，MySQL数据库 -->
+    <bean id="serverHibernateDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <!-- MySQL5 -->
+        <property name="driverClass" value="${server.db.driverClassName}"></property>
+        <property name="jdbcUrl" value="${server.db.url}"></property>
+        <property name="user" value="${server.db.username}"></property>
+        <property name="password" value="${server.db.password}"></property>
+        <property name="maxPoolSize" value="40"></property>
+        <property name="minPoolSize" value="1"></property>
+        <property name="initialPoolSize" value="1"></property>
+        <property name="maxIdleTime" value="20"></property>
+    </bean>
+
+    <!--session工厂-->
+    <!--spring与hibernate整合配置，扫描所有dao-->
+    <bean id="serverHibernateSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="serverHibernateDataSource"/>
+        <property name="packagesToScan" value="com.oshippa.server.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+            </props>
+        </property>
+        <!--<property name="mappingLocations">-->
+        <!--<list>-->
+        <!--<value>classpath:META-INF/hb-map/*.hbm.xml</value>-->
+        <!--</list>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="hibernateTransactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="serverHibernateSessionFactory"></property>
+    </bean>
+    <bean id="sql" class="groovy.sql.Sql">
+        <constructor-arg ref="serverHibernateDataSource"/>
+    </bean>
+    <!-- 对数据源进行事务管理 -->
+    <!--<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>-->
+    <!-- 配置事务容器 -->
+    <!-- 定义事务规则 -->
+    <bean id="transactionInterceptor"
+          class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <constructor-arg name="ptm" ref="hibernateTransactionManager"></constructor-arg>
+        <constructor-arg name="attributes" >
+            <props>
+                <!-- 回滚为-，不回滚为+ -->
+                <prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="update*">PROPAGATION_REQUIRED,+MyException</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">readOnly</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+    <!-- 定义事务入口 -->
+    <bean id="proxyFactory"
+          class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+        <property name="beanNames">
+            <list>
+                <value>*Dao</value>
+            </list>
+        </property>
+    </bean>
+    <context:component-scan base-package="com.oshippa.common.db.dao"/>
+    <context:component-scan base-package="com.oshippa.common.db.service"/>
+</beans>

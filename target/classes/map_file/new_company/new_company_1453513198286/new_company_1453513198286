@@ -1,0 +1,3 @@
+
+    alter table new_company_1453513198286 
+        add column deleted bit

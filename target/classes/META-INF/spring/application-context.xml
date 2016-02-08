@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+                      http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Have Spring servlet handle all static content -->
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven />
+
+    <context:component-scan base-package="com.oshippa.auth.filter"/>
+    <context:component-scan base-package="com.oshippa.auth.configuration"/>
+    <context:component-scan base-package="com.oshippa.auth.resource"/>
+    <context:component-scan base-package="com.oshippa.auth.user"/>
+    <context:component-scan base-package="com.oshippa.auth.sample"/>
+    <context:component-scan base-package="com.oshippa.server"/>
+
+
+    <import resource="classpath:META-INF/spring/security/security-configuration.xml"/>
+    <import resource="classpath:META-INF/spring/security/authentication-managers.xml"/>
+    <import resource="classpath:META-INF/spring/security/endpoint-configuration.xml"/>
+    <import resource="classpath:META-INF/spring/oauth/oauth2-configuration.xml"/>
+    <import resource="classpath:META-INF/spring/oauth/token-store.xml"/>
+    <import resource="classpath:META-INF/spring/oauth/client-details.xml"/>
+    <import resource="classpath:META-INF/spring/spring-hibernate.xml"></import>
+
+    <bean id="log4jInitialization"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass"
+                  value="org.springframework.util.Log4jConfigurer"/>
+        <property name="targetMethod" value="initLogging"/>
+        <property name="arguments">
+            <list>
+                <value>classpath:properties/log4j.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.scripting.support.ScriptFactoryPostProcessor"/>
+    <!--<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>-->
+</beans>

@@ -1,0 +1,10 @@
+
+    drop table if exists employee_1453521868168
+
+    create table employee_1453521868168 (
+        id bigint not null auto_increment,
+        name varchar(255),
+        myid varchar(255),
+        user_id varchar(255),
+        primary key (id)
+    )
