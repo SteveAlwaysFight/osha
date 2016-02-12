@@ -13,6 +13,7 @@ package com.oshippa.common.db.dao;
  */
 
 import com.oshippa.common.model.Element;
+import com.oshippa.server.exception.ElementNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -204,6 +205,16 @@ public class HibernateBaseGenericDaoImpl<T extends Element, PK extends Serializa
         criteria.setResultTransformer(Transformers.aliasToBean(entityClass));
         List<T> list = criteria.list();
         return list;
+    }
+
+
+    @Override
+    public T checkExist(PK id, String msg) {
+        T obj = this.get(id);
+        if(null == obj){
+            throw new ElementNotFoundException(msg);
+        }
+        return obj;
     }
 }
 

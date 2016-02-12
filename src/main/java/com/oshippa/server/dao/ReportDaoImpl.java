@@ -2,8 +2,8 @@ package com.oshippa.server.dao;
 
 import com.oshippa.common.db.dao.HibernateBaseGenericDaoImpl;
 import com.oshippa.server.exception.ElementNotFoundException;
-import com.oshippa.server.model.Report;
-import com.oshippa.server.model.ReportField;
+import com.oshippa.server.model.file.Report;
+import com.oshippa.server.model.file.ReportField;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -103,16 +103,34 @@ public class ReportDaoImpl extends HibernateBaseGenericDaoImpl<Report, String> i
     @Override
     public void deleteReport(String id) {
         Session session = getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Query query = session.createQuery("update Report report set report.deleted=true where report.id=:id");
         query.setString("id", id);
         int i = query.executeUpdate();
         if (i == 0) {
             throw new ElementNotFoundException("report");
         }
+        session.getTransaction().commit();
     }
 
     @Override
     public String getReportTableName(String id) {
         return null;
+    }
+
+    @Override
+    public void setFolder(String folderId,String reportId) {
+        Report report = checkExist(reportId);
+        report.setParentFoldId(folderId);
+        this.update(report);
+
+    }
+
+    private Report checkExist(String id){
+        Report report = this.get(id);
+        if(null == report){
+            throw new ElementNotFoundException(" report ");
+        }
+        return report;
     }
 }

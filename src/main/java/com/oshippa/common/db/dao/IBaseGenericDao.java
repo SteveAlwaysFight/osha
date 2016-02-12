@@ -96,4 +96,7 @@ public abstract interface IBaseGenericDao<T extends Element, PK extends Serializ
 
     public abstract List<T> getListbyFieldAndParams(String[] fields, Map<String, Object> map);
 
+    T checkExist(PK id,String msg);
+
+
 }

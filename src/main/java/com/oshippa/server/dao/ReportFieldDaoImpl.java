@@ -1,7 +1,7 @@
 package com.oshippa.server.dao;
 
 import com.oshippa.common.db.dao.HibernateBaseGenericDaoImpl;
-import com.oshippa.server.model.ReportField;
+import com.oshippa.server.model.file.ReportField;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,7 @@
-package com.oshippa.server.model;
+package com.oshippa.server.model.file;
 
 import com.oshippa.common.model.Element;
+import com.oshippa.server.model.Field;
 
 import javax.persistence.*;
 

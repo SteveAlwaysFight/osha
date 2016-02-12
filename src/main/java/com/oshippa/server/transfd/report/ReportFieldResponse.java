@@ -1,6 +1,6 @@
 package com.oshippa.server.transfd.report;
 
-import com.oshippa.server.model.ReportField;
+import com.oshippa.server.model.file.ReportField;
 import com.oshippa.server.transfd.ElementResponse;
 import com.oshippa.server.transfd.entities.FieldResponse;
 

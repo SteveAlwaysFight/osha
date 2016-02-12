@@ -1,7 +1,6 @@
-package com.oshippa.server.model;
+package com.oshippa.server.model.file;
 
-import com.oshippa.common.model.Element;
-
+import com.oshippa.server.model.TableElement;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,8 @@ import java.util.List;
  * Created by steve on 1/14/16.
  */
 @javax.persistence.Entity
-@Table(name = "report")
-public class Report extends Element implements TableElement{
+@Table(name = "report_file_element")
+public class Report extends FileElement implements TableElement {
 
     private String tableName;
 

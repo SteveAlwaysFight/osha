@@ -1,7 +1,6 @@
 package com.oshippa.server.helper;
 
-import com.oshippa.server.model.Report;
-import com.oshippa.server.model.ReportField;
+import com.oshippa.server.model.file.ReportField;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

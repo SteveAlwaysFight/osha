@@ -6,14 +6,15 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.oshippa.server.dao;
+package com.oshippa.server.exception;
 
-import com.oshippa.common.db.dao.IBaseGenericDao;
-import com.oshippa.server.model.Module;
+import com.oshippa.common.exception.BadRequestException;
 
 /**
- * Created by steve on 1/26/16.
+ * Created by steve on 2/12/16.
  */
-public interface ModuleDao extends IBaseGenericDao<Module,String> {
-
+public class FileElementDuplicatedException extends BadRequestException {
+    public FileElementDuplicatedException(String developerMessage) {
+        super("file or folder "+developerMessage+"already existing");
+    }
 }

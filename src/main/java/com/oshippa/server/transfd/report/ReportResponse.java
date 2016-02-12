@@ -1,8 +1,7 @@
 package com.oshippa.server.transfd.report;
 
-import com.oshippa.server.helper.FileReaderHelper;
-import com.oshippa.server.model.Report;
-import com.oshippa.server.model.ReportField;
+import com.oshippa.server.model.file.Report;
+import com.oshippa.server.model.file.ReportField;
 import com.oshippa.server.transfd.ElementResponse;
 
 import javax.xml.bind.annotation.XmlRootElement;

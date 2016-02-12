@@ -1,6 +1,6 @@
 package com.oshippa.server.service;
 
-import com.oshippa.server.model.Report;
+import com.oshippa.server.model.file.Report;
 import com.oshippa.server.transfd.report.CreateReportRequest;
 import com.oshippa.server.transfd.report.ReportResponse;
 

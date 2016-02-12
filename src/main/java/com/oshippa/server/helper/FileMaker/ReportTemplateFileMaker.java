@@ -1,7 +1,6 @@
 package com.oshippa.server.helper.FileMaker;
 
-import com.oshippa.server.helper.FileReaderHelper;
-import com.oshippa.server.model.Report;
+import com.oshippa.server.model.file.Report;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;

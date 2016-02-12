@@ -4,7 +4,7 @@ import com.oshippa.auth.resource.BaseResource;
 import com.oshippa.auth.user.User;
 import com.oshippa.common.exception.NullParametersException;
 import com.oshippa.server.message.EntityException;
-import com.oshippa.server.model.Report;
+import com.oshippa.server.model.file.Report;
 import com.oshippa.server.service.ReportService;
 import com.oshippa.server.transfd.entities.EntityResponse;
 import com.oshippa.server.transfd.entities.UpdateEntityRequest;
